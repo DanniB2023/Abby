@@ -22,10 +22,21 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        if (Category.Name == Category.DisplayOrder.ToString())
+        {
+            ModelState.AddModelError(String.Empty, "The DisplayOrder cannot exactly match the Name. ");
+        }
+
         if (ModelState.IsValid)
-        await _db.Category.AddAsync(Category);
-        await _db.SaveChangesAsync();
-        return RedirectToPage("Index");
+        {
+            await _db.Category.AddAsync(Category);
+            await _db.SaveChangesAsync();
+            return RedirectToPage("Index");
+
+        }
+
+        return Page();
+
     }
 
 }
